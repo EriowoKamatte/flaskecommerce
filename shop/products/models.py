@@ -1,9 +1,9 @@
-from shop import db
+from shop import db, app
 from datetime import datetime
 
 
 class Addproduct(db.Model):
-    __seachbale__ = ['name','desc']
+    __searchable__ = ['name','desc']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     price = db.Column(db.Numeric(10,2), nullable=False)
@@ -43,4 +43,5 @@ class Category(db.Model):
         return '<Catgory %r>' % self.name
 
 
-db.create_all()
+with app.app_context():
+    db.create_all()

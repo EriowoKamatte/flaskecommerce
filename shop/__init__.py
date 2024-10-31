@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, app
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
@@ -10,10 +10,9 @@ from flask_migrate import Migrate
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-app.config['SECRET_KEY']='hfouewhfoiwefoquw'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+# tao database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///BookStorage.db'
+app.config['SECRET_KEY'] = 'x'
 app.config['UPLOADED_PHOTOS_DEST'] = os.path.join(basedir, 'static/images')
 photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
@@ -21,7 +20,7 @@ patch_request_class(app)
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
-search = Search()
+search = Search(db=db)
 search.init_app(app)
 
 migrate = Migrate(app, db)

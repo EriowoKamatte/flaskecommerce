@@ -1,4 +1,5 @@
-from shop import db
+
+from shop import db, app
 from datetime import datetime
 
 class User(db.Model):
@@ -15,4 +16,5 @@ class User(db.Model):
 
 
 
-db.create_all()
+with app.app_context():
+    db.create_all()

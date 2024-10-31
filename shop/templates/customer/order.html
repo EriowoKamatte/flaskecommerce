@@ -54,7 +54,7 @@
            <tr> 
 
                <td>   
-                   {% if ordrs.status =='Paid' %}
+                   {% if orders.status =='Paid' %}
                    {% else %}
                 <form action="{{url_for('payment')}}" method="POST">
                 {% set amount =  grandTotal.replace('.','') %}
@@ -62,9 +62,9 @@
                 <input type="hidden" name="invoice" value="{{orders.invoice}}">
                 <script src="https://checkout.stripe.com/checkout.js"
                   class="stripe-button"
-                  data-key="pk_test_MaILxTYQ15v5Uhd6NKI9wPdD00qdL0QZSl"
-                  data-name="{{customers.name}}"
-                  data-description="myshop parchase"
+                  data-key="pk_test_51P7Kjk2L7M7als7uhDXojbk9zIkSGLNcEZrm7thMo0jqol6qM6xNSzOESuL4q5xhdvWkXFI6aTdj5zogzlLBsJIB00cRhe7gAj"
+                  data-name="{{customer.name}}"
+                  data-description="Purchase"
                   data-amount="{{amount}}"
                   data-currency="usd">
                 </script>

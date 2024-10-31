@@ -1,1 +1,52 @@
-<h1>Thank you shopping with us! </h1>
+{% extends "layout.html" %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+    }
+    .thank-you-container {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        text-align: center;
+    }
+    .thank-you-title {
+        font-size: 2rem;
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+    .thank-you-message {
+        font-size: 1.2rem;
+        color: #555;
+        margin-bottom: 20px;
+    }
+    .btn-home {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .btn-home:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="thank-you-container">
+    <h1 class="thank-you-title">Thank You for Shopping with Us!</h1>
+    <p class="thank-you-message">We appreciate your business and hope you enjoy your purchase.</p>
+    <a href="{{ url_for('home') }}">
+        <button class="btn-home">Go to Home</button>
+    </a>
+</div>
+{% endblock content %}
