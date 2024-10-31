@@ -5,33 +5,36 @@
     <div class="row">
         {% if brand %}
          {% for b in brand.items %}
-        <div class="col-md-3 mt-4">
-            <div class="card">
-                <img src="{{url_for('static', filename='images/' + b.image_1)}}" class="card-img-top" alt="{{b.name}}" height="200" width="200">
-                <div class="card-body">
-                    {% if b.discount > 0 %}
-                    <h5 style="text-shadow: 1px 2px 2px #000; color: #f00; transform: rotate(-15deg); position: absolute; top: 23%; left: 25%; font-weight: 600;"> Discount {{b.discount}}</h5>
-                    {% endif %}
-                  <h5 class="text-center">{{b.name}}</h5>
-                  <p class="text-center">Price ${{b.price}}</p>
-                </div>
-                <div class="card-footer">
-                    <a href="{{url_for('single_page',id=b.id)}}" class="float-left btn btn-sm btn-primary">Details</a>
-                    <form action="{{url_for('AddCart')}}" method="post">
+         <div class="col-md-3 mt-4">
+          <div class="card shadow-sm rounded">
+              <div class="position-relative">
+                  <img src="{{url_for('static', filename='images/' + b.image_1)}}" class="card-img-top" alt="{{b.name}}" style="height: 200px; object-fit: cover;">
+                  {% if b.discount > 0 %}
+                  <span class="badge badge-danger position-absolute" style="top: 15px; left: 15px; font-size: 0.8rem; transform: rotate(-10deg)">{{b.discount}}% Off</span>
+                  {% endif %}
+              </div>
+              <div class="card-body text-center">
+                  <h5 class="card-title">{{b.name}}</h5>
+                  <p class="card-text text-muted">Price: ${{b.price}}</p>
+              </div>
+              <div class="card-footer d-flex justify-content-between align-items-center">
+                  <a href="{{url_for('single_page', id=b.id)}}" class="btn btn-primary btn-sm">Details</a>
+                  <form action="{{url_for('AddCart')}}" method="post" class="d-inline">
                       <input type="hidden" name="product_id" value="{{b.id}}">
-                      <button type="submit" class="btn btn-sm btn-warning float-right">Add to Cart</button>
                       <input type="hidden" name="quantity" value="1" min="1" max="20">
                       {% set colors = b.colors.split(',') %}
-                      <select name="colors" id="colors" style="visibility: hidden;">
+                      <select name="colors" id="colors" class="d-none">
                           {% for color in colors %}
                           {% set col = color.split(':') %}
-                          <option value="{{col[0]}}">{{col[0] | capitalize }}</option>
+                          <option value="{{col[0]}}">{{col[0] | capitalize}}</option>
                           {% endfor %}
                       </select>
+                      <button type="submit" class="btn btn-warning btn-sm">Add to Cart</button>
                   </form>
-                </div>
-            </div>
+              </div>
           </div>
+      </div>
+      
         {% endfor %}
     </div>
     
@@ -63,33 +66,35 @@
         {% elif get_cat_prod %}
         {% for get_cat in get_cat_prod.items %}
         <div class="col-md-3 mt-4">
-            <div class="card">
-                <img src="{{url_for('static', filename='images/' + get_cat.image_1)}}" class="card-img-top" alt="{{get_cat.name}}" height="200" width="200">
-                <div class="card-body">
-                    {% if get_cat.discount > 0 %}
-                    <h5 style="text-shadow: 1px 2px 2px #000; color: #f00; transform: rotate(-15deg); position: absolute; top: 23%; left: 25%; font-weight: 600;"> Discount {{get_cat.discount}}</h5>
-                    {% endif %}
-                  <h5 class="text-center">{{get_cat.name}}</h5>
-                  <p class="text-center">Price ${{get_cat.price}}</p>
-                </div>
-                <div class="card-footer">
-                    <a href="{{url_for('single_page', id=get_cat.id)}}" class="float-left btn btn-sm btn-primary">Details</a>
-                    <form action="{{url_for('AddCart')}}" method="post">
+          <div class="card shadow-sm rounded">
+              <div class="position-relative">
+                  <img src="{{url_for('static', filename='images/' + get_cat.image_1)}}" class="card-img-top" alt="{{get_cat.name}}" style="height: 200px; object-fit: cover;">
+                  {% if get_cat.discount > 0 %}
+                  <span class="badge badge-danger position-absolute" style="top: 10px; left: 10px; font-size: 0.8rem;">{{get_cat.discount}}%</span>
+                  {% endif %}
+              </div>
+              <div class="card-body text-center">
+                  <h5 class="card-title">{{get_cat.name}}</h5>
+                  <p class="card-text text-muted">Price: ${{get_cat.price}}</p>
+              </div>
+              <div class="card-footer d-flex justify-content-between align-items-center">
+                  <a href="{{url_for('single_page', id=get_cat.id)}}" class="btn btn-primary btn-sm">Details</a>
+                  <form action="{{url_for('AddCart')}}" method="post" class="d-inline">
                       <input type="hidden" name="product_id" value="{{get_cat.id}}">
-                      <button type="submit" class="btn btn-sm btn-warning float-right">Add to Cart</button>
                       <input type="hidden" name="quantity" value="1" min="1" max="20">
                       {% set colors = get_cat.colors.split(',') %}
-                      <select name="colors" id="colors" style="visibility: hidden;">
+                      <select name="colors" id="colors" class="d-none">
                           {% for color in colors %}
                           {% set col = color.split(':') %}
-                          <option value="{{col[0]}}">{{col[0] | capitalize }}</option>
+                          <option value="{{col[0]}}">{{col[0] | capitalize}}</option>
                           {% endfor %}
                       </select>
+                      <button type="submit" class="btn btn-warning btn-sm">Add to Cart</button>
                   </form>
-                </div>
-            </div>
+              </div>
           </div>
-
+      </div>
+      
         {% endfor %}
       </div>
 
@@ -120,40 +125,43 @@
         <div class="row">
          {% else %}
         {% for product in products.items %}
-      <div class="col-md-3 mt-4">
-        <div class="card">
-            <img src="{{url_for('static', filename='images/' + product.image_1)}}" class="card-img-top" alt="{{product.name}}" height="200" width="200">
-            <div class="card-body">
-                {% if product.discount > 0 %}
-                <h5 style="text-shadow: 1px 2px 2px #000; color: #f00; transform: rotate(-15deg); position: absolute; top: 23%; left: 25%; font-weight: 600;"> Discount {{product.discount}}</h5>
-                {% endif %}
-              <h5 class="text-center">{{product.name}}</h5>
-              <p class="text-center">Price ${{product.price}}</p>
-            </div>
-            <div class="card-footer">
-                <a href="{{url_for('single_page',id=product.id)}}" class="float-left btn btn-sm btn-primary">Details</a>
-                <form action="{{url_for('AddCart')}}" method="post">
-                  <input type="hidden" name="product_id" value="{{product.id}}">
-                  <button type="submit" class="btn btn-sm btn-warning float-right">Add to Cart</button>
-                  <input type="hidden" name="quantity" value="1" min="1" max="20">
-                  {% set colors = product.colors.split(',') %}
-                  <select name="colors" id="colors" style="visibility: hidden;">
-                      {% for color in colors %}
-                      {% set col = color.split(':') %}
-                      <option value="{{col[0]}}">{{col[0] | capitalize }}</option>
-                      {% endfor %}
-                  </select>
-              </form>
-            </div>
-        </div>
+        <div class="col-md-3 mt-4">
+          <div class="card shadow-sm rounded">
+              <div class="position-relative">
+                  <img src="{{url_for('static', filename='images/' + product.image_1)}}" class="card-img-top" alt="{{product.name}}" style="height: 200px; object-fit: cover;">
+                  {% if product.discount > 0 %}
+                  <span class="badge badge-danger position-absolute" style="top: 10px; left: 10px; font-size: 0.8rem;">{{product.discount}}%</span>
+                  {% endif %}
+              </div>
+              <div class="card-body text-center">
+                  <h5 class="card-title">{{product.name}}</h5>
+                  <p class="card-text text-muted">Price: ${{product.price}}</p>
+              </div>
+              <div class="card-footer d-flex justify-content-between align-items-center">
+                  <a href="{{url_for('single_page', id=product.id)}}" class="btn btn-primary btn-sm">Details</a>
+                  <form action="{{url_for('AddCart')}}" method="post" class="d-inline">
+                      <input type="hidden" name="product_id" value="{{product.id}}">
+                      <input type="hidden" name="quantity" value="1" min="1" max="20">
+                      {% set colors = product.colors.split(',') %}
+                      <select name="colors" id="colors" class="d-none">
+                          {% for color in colors %}
+                          {% set col = color.split(':') %}
+                          <option value="{{col[0]}}">{{col[0] | capitalize}}</option>
+                          {% endfor %}
+                      </select>
+                      <button type="submit" class="btn btn-warning btn-sm">Add to Cart</button>
+                  </form>
+              </div>
+          </div>
       </div>
+      
         {% endfor %}
       </div>
 
       <div class="row mt-4">
         <div class="col text-center">
           {% if products.has_prev %}
-            <a href="{{url_for('home', page=products.prev_num)}}"class="btn btn-sm btn-outline-info">previus</a>
+            <a href="{{url_for('home', page=products.prev_num)}}"class="btn btn-sm btn-outline-info"><</a>
           {% endif %}
           {% if products.total> 8 %}
          {% for page_num in products.iter_pages(left_edge=1, right_edge=2, left_current=1,right_current=2) %}
@@ -169,7 +177,7 @@
          {% endfor %}
          {% endif %}
          {% if products.has_next %}
-         <a href="{{url_for('home', page=products.next_num)}}"class="btn btn-sm btn-outline-info">next</a>
+         <a href="{{url_for('home', page=products.next_num)}}"class="btn btn-sm btn-outline-info">></a>
        {% endif %}
         </div>
       </div>

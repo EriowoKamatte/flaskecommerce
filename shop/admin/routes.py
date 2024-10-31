@@ -1,4 +1,4 @@
-from flask import render_template,session, request,redirect,url_for,flash
+from flask import render_template,session, request, redirect, url_for, flash
 from shop import app,db,bcrypt
 from .forms import RegistrationForm,LoginForm
 from .models import User
@@ -28,7 +28,7 @@ def register():
         user = User(name=form.name.data,username=form.username.data, email=form.email.data,
                     password=hash_password)
         db.session.add(user)
-        flash(f'welcome {form.name.data} Thanks for registering','success')
+        flash(f'Welcome {form.name.data} Thanks for registering','success')
         db.session.commit()
         return redirect(url_for('login'))
     return render_template('admin/register.html',title='Register user', form=form)
@@ -41,7 +41,7 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             session['email'] = form.email.data
-            flash(f'welcome {form.email.data} you are logedin now','success')
+            flash(f'Welcome {form.email.data} you are loged in now','success')
             return redirect(url_for('admin'))
         else:
             flash(f'Wrong email and password', 'success')

@@ -5,58 +5,61 @@
 
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-6" id="b_image">
-            <img src="{{url_for('static',filename='images/' + product.image_1)}}" alt="{{product.name}}" width="400" height="400">
+        <div class="col-md-6 d-flex justify-content-center align-items-center">
+            <img id="main-image" src="{{ url_for('static', filename='images/' + product.image_1) }}" alt="{{ product.name }}" class="img-fluid" style="max-width: 100%; height: auto;">
         </div>
         <div class="col-md-6">
-            <h4>Product name: {{product.name}} </h4>
+            <h4 class="font-weight-bold">{{ product.name }}</h4>
             <hr>
-            <p>Product price: ${{product.price}}</p>
+            <p class="h5">Price: <span class="text-success">${{ product.price }}</span></p>
             <hr>
             {% if product.discount > 0 %}
-            <p>Discount: {{product.discount}} % </p>
+            <p class="text-danger">Discount: <strong>{{ product.discount }}%</strong></p>
             {% endif %}
             <hr>
-            <b>Product discription</b>
-            <p>{{product.desc}}</p>
-            <form action="{{url_for('AddCart')}}" method="post">
-                <input type="hidden" name="product_id" value="{{product.id}}">
-                <button type="submit" class="btn btn-sm btn-warning">Add to Cart</button>
-                <label for="quantity">Quantity: </label>
-                <input type="number" name="quantity" value="1" min="1" max="{{product.stock}}">
-                {% set colors = product.colors.split(',') %}
-                <label for="colors">Colors: </label>
-                <select name="colors" id="colors">
-                    {% for color in colors %}
-                    {% set col = color.split(':') %}
-                    <option value="{{col[0]}}">{{col[0] | capitalize }}</option>
-                    {% endfor %}
-                </select>
+            <b>Description:</b>
+            <p>{{ product.desc }}</p>
+            <form action="{{ url_for('AddCart') }}" method="post" class="mt-3">
+                <input type="hidden" name="product_id" value="{{ product.id }}">
+                <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" class="form-control w-25 d-inline" id="quantity">
+                </div>
+                <div class="form-group">
+                    <label for="colors">Colors:</label>
+                    <select name="colors" id="colors" class="form-control">
+                        {% set colors = product.colors.split(',') %}
+                        {% for color in colors %}
+                        {% set col = color.split(':') %}
+                        <option value="{{ col[0] }}">{{ col[0] | capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-warning">Add to Cart</button>
             </form>
-        
         </div>
     </div>
     <hr>
     <div class="row">
-        <div class="col-md-12" id="s_image">
-            <img src="{{url_for('static',filename='images/'+ product.image_1)}}" alt="{{product.name}}" width="100" height="100">
-            <img src="{{url_for('static',filename='images/'+ product.image_2)}}" alt="{{product.name}}" width="100" height="100" class="ml-5">
-            <img src="{{url_for('static',filename='images/'+ product.image_3)}}" alt="{{product.name}}" width="100" height="100" class="ml-5">
+        <div class="col-md-12 text-center">
+            <h5>More Images:</h5>
+            <div id="s_image" class="d-flex justify-content-center">
+                <img src="{{ url_for('static', filename='images/' + product.image_1) }}" alt="{{ product.name }}" class="img-thumbnail mx-2 s-image img-fluid" style="cursor: pointer;" width="100" height="100">
+                <img src="{{ url_for('static', filename='images/' + product.image_2) }}" alt="{{ product.name }}" class="img-thumbnail mx-2 s-image img-fluid" style="cursor: pointer;" width="100" height="100">
+                <img src="{{ url_for('static', filename='images/' + product.image_3) }}" alt="{{ product.name }}" class="img-thumbnail mx-2 s-image img-fluid" style="cursor: pointer;" width="100" height="100">
+            </div>
         </div>
     </div>
-   
 </div>
 
 <script>
-   var b_image = document.getElementById('b_image');
-   var s_image = document.getElementById('s_image').getElementsByTagName('img');
-    for(var i = 0; i < s_image.length; i++){
-
-        s_image[i].addEventListener('click', full_image);
-    }
-    function full_image(){
-        var ImageSRC = this.getAttribute('src');
-        b_image.innerHTML = "<img src=" + ImageSRC + " width='400' height='400'>";
-    }
+    var mainImage = document.getElementById('main-image');
+    var s_images = document.querySelectorAll('.s-image');
+    s_images.forEach(function(image) {
+        image.addEventListener('click', function() {
+            var ImageSRC = this.getAttribute('src');
+            mainImage.setAttribute('src', ImageSRC); // Cập nhật thuộc tính src cho hình ảnh lớn
+        });
+    });
 </script>
 {% endblock content %}
